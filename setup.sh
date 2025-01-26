@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+#!/bin/bash
+
 # Ensure the script is run with sudo
 if [ "$EUID" -ne 0 ]; then
   echo "Please run this script as root using sudo."
@@ -7,6 +9,13 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 echo "Starting Mac setup process..."
+
+# Wi-Fi credentials
+WIFI_SSID="the-wifi"
+
+# Prompt for the Wi-Fi password
+read -sp "Enter the password for Wi-Fi network '$WIFI_SSID': " WIFI_PASSWORD
+echo
 
 # Install Xcode Command Line Tools if not already installed
 if ! xcode-select -p &> /dev/null; then
@@ -64,6 +73,15 @@ echo "Adding Google Chrome to the Dock..."
 /usr/bin/defaults write com.apple.dock persistent-apps -array-add \
     '{tile-data={}; tile-type="file-tile"; file-data={_CFURLString="file:///Applications/Google%20Chrome.app/"; _CFURLStringType=15;};}'
 killall Dock
+
+# Join Wi-Fi network
+echo "Joining Wi-Fi network $WIFI_SSID..."
+networksetup -setairportnetwork en0 "$WIFI_SSID" "$WIFI_PASSWORD"
+if [ $? -eq 0 ]; then
+  echo "Successfully connected to Wi-Fi network $WIFI_SSID."
+else
+  echo "Failed to connect to Wi-Fi network $WIFI_SSID. Please check the password and try again."
+fi
 
 echo "Mac setup is complete!"
 

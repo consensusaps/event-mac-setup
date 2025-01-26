@@ -10,9 +10,9 @@ fi
 
 echo "Starting Mac setup process..."
 
-# Prompt for the Wi-Fi password
-read -sp "Enter the password for Wi-Fi network '$WIFI_SSID': " WIFI_PASSWORD
-echo
+# Prevent the display from shutting off while on power
+echo "Setting display to never shut off while on power..."
+pmset -c displaysleep 0
 
 # Install Xcode Command Line Tools if not already installed
 if ! xcode-select -p &> /dev/null; then
@@ -60,10 +60,6 @@ echo "Clearing the Dock..."
 defaults write com.apple.dock persistent-apps -array
 defaults write com.apple.dock persistent-others -array
 killall Dock
-
-# Prevent the display from shutting off while on power
-echo "Setting display to never shut off while on power..."
-pmset -c displaysleep 0
 
 # Add Google Chrome to the Dock
 echo "Adding Google Chrome to the Dock..."

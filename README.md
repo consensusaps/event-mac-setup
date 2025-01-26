@@ -1,5 +1,5 @@
 # Install Script
 
 ```
-sudo /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/consensusaps/event-mac-setup/setup.sh)"
 ```
